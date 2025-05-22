@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="\css\main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+
+  <script src="vendor/ckeditor/ckeditor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <title>Home</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="images/logo/logo.svg" alt="" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/home" class="dashboard-sidebar__link dashboard-sidebar__link--active">
+                    <img src="images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/setting" class="dashboard-sidebar__link">
+                    <img src="images/icons/setting.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Cài đặt</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <!-- Content -->
+          <div class="setting">
+            <div class="container">
+              <form class="setting-form" enctype="multipart/form-data" method="POST" action="/api/setting/update">
+                <h2 class="setting-form__title">Cài đặt trang</h2>
+                <div class="setting-form__group">
+                  <label class="setting-form__label">Logo trang</label>
+                  <input type="file" name="logo" class="setting-form__input" accept="image/*" />
+                  <div class="setting-form__logo-preview">
+                    <img id="logoPreview" src="<%= settings && settings.logo ? settings.logo : '/images/logo/logo.svg' %>" alt="Logo Preview" style="max-width: 120px; max-height: 80px;" />
+                  </div>
+                </div>
+                <div class="setting-form__group">
+                  <label class="setting-form__label">Địa chỉ</label>
+                  <input type="text" name="address" class="setting-form__input" placeholder="Nhập địa chỉ" required value="<%= settings && settings.address ? settings.address : '' %>" />
+                </div>
+                <div class="setting-form__group">
+                  <label class="setting-form__label">Số điện thoại</label>
+                  <input type="tel" name="phone" class="setting-form__input" placeholder="Nhập số điện thoại" required value="<%= settings && settings.phone ? settings.phone : '' %>" />
+                </div>
+                <div class="setting-form__group">
+                  <label class="setting-form__label">Gmail</label>
+                  <input type="email" name="gmail" class="setting-form__input" placeholder="Nhập gmail" required value="<%= settings && settings.gmail ? settings.gmail : '' %>" />
+                </div>
+                <div class="setting-form__actions">
+                  <button type="submit" class="setting-form__submit">Lưu thay đổi</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal thêm tài khoản -->
+    <div class="modal modal--medium modal--medium-horizontal modal__account" id="modal_addAccount">
+      <div class="modal__content">
+        <div class="modal__header">
+          <h2 class="modal__title">Thêm tài khoản</h2>
+          <button class="modal__close" id="closeAddModal">
+            <img src="images/icons/close.svg" alt="" class="modal__close-icon" />
+          </button>
+        </div>
+        <form id="addAccountForm" class="modal__form modal__form-add-account" enctype="multipart/form-data">
+          <!-- Avatar -->
+          <div class="modal__group-avatar">
+            <div class="modal__group-avatar-input">
+              <label class="modal__label">Ảnh đại diện</label>
+              <input type="file" name="avatar" class="modal__input" accept="image/*" />
+            </div>
+            <div class="preview-wrapper">
+              <img id="previewAddAvatar" src="images/logo/logo_user_empty.png" alt="Preview Avatar">
+            </div>
+          </div>
+
+          <!-- Thông tin tài khoản -->
+          <div class="modal__account-info">
+            <div class="modal__group">
+              <label class="modal__label">Tên đăng nhập</label>
+              <input type="text" name="username" class="modal__input" required placeholder="Nhập tên đăng nhập" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Email</label>
+              <input type="email" name="email" class="modal__input" required placeholder="Nhập email" autocomplete="email" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Mật khẩu</label>
+              <input type="password" name="password" class="modal__input" required placeholder="Nhập mật khẩu" autocomplete="new-password" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Nhập lại mật khẩu</label>
+              <input type="password" name="confirmPassword" class="modal__input" required placeholder="Xác nhận mật khẩu" autocomplete="new-password" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Họ và tên</label>
+              <input type="text" name="fullName" class="modal__input" required placeholder="Nhập họ và tên" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Số điện thoại</label>
+              <input type="tel" name="phone" class="modal__input" required placeholder="Nhập số điện thoại" />
+            </div>
+
+            <input type="hidden" name="role" value="admin" />
+          </div>
+
+          <div class="modal__separator"></div>
+          <h3 class="modal__heading">Thông tin địa chỉ</h3>
+          <div class="modal__address-info">
+            <div class="modal__group">
+              <label class="modal__label">Tỉnh/Thành phố</label>
+              <select name="address[province]" class="modal__input" required>
+                <option value="">Chọn Tỉnh/Thành phố</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Quận/Huyện</label>
+              <select name="address[district]" class="modal__input" required>
+                <option value="">Chọn Quận/Huyện</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Phường/Xã</label>
+              <select name="address[ward]" class="modal__input" required>
+                <option value="">Chọn Phường/Xã</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Địa chỉ chi tiết</label>
+              <input type="text" name="address[detail]" class="modal__input" placeholder="Nhập địa chỉ chi tiết (số nhà, tên đường...)" />
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="modal__actions">
+            <button type="submit" class="modal__submit">Tạo tài khoản</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal sửa tài khoản -->
+    <div class="modal modal--medium modal--medium-horizontal modal__account" id="modal_editAccount">
+      <div class="modal__content">
+        <div class="modal__header">
+          <h2 class="modal__title">Sửa tài khoản</h2>
+          <button class="modal__close" id="closeEditModal">
+            <img src="images/icons/close.svg" alt="" class="modal__close-icon" />
+          </button>
+        </div>
+        <form id="editAccountForm" class="modal__form modal__form-edit-account" enctype="multipart/form-data">
+          <input type="hidden" name="accountId" id="editAccountId">
+          <!-- Avatar -->
+          <div class="modal__group-avatar">
+            <div class="modal__group-avatar-input">
+              <label class="modal__label">Ảnh đại diện</label>
+              <input type="file" name="avatar" class="modal__input" accept="image/*" />
+            </div>
+            <div class="preview-wrapper">
+              <img id="previewEditAvatar" src="images/logo/logo_user_empty.png" alt="Preview Avatar">
+            </div>
+          </div>
+
+          <!-- Thông tin tài khoản -->
+          <div class="modal__account-info">
+            <div class="modal__group">
+              <label class="modal__label">Tên đăng nhập</label>
+              <input type="text" name="username" class="modal__input" required placeholder="Nhập tên đăng nhập" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Email</label>
+              <input type="email" name="email" class="modal__input" required placeholder="Nhập email" autocomplete="email" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Mật khẩu mới</label>
+              <input type="password" name="password" class="modal__input" placeholder="Nhập mật khẩu mới (để trống nếu không đổi)" autocomplete="new-password" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Nhập lại mật khẩu mới</label>
+              <input type="password" name="confirmPassword" class="modal__input" placeholder="Xác nhận mật khẩu mới (để trống nếu không đổi)" autocomplete="new-password" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Họ và tên</label>
+              <input type="text" name="fullName" class="modal__input" required placeholder="Nhập họ và tên" />
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Số điện thoại</label>
+              <input type="tel" name="phone" class="modal__input" required placeholder="Nhập số điện thoại" />
+            </div>
+
+            <input type="hidden" name="role" value="admin" />
+          </div>
+
+          <div class="modal__separator"></div>
+          <h3 class="modal__heading">Thông tin địa chỉ</h3>
+          <div class="modal__address-info">
+            <div class="modal__group">
+              <label class="modal__label">Tỉnh/Thành phố</label>
+              <select name="address[province]" class="modal__input" required>
+                <option value="">Chọn Tỉnh/Thành phố</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Quận/Huyện</label>
+              <select name="address[district]" class="modal__input" required>
+                <option value="">Chọn Quận/Huyện</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Phường/Xã</label>
+              <select name="address[ward]" class="modal__input" required>
+                <option value="">Chọn Phường/Xã</option>
+              </select>
+            </div>
+
+            <div class="modal__group">
+              <label class="modal__label">Địa chỉ chi tiết</label>
+              <input type="text" name="address[detail]" class="modal__input" placeholder="Nhập địa chỉ chi tiết (số nhà, tên đường...)" />
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="modal__actions">
+            <button type="submit" class="modal__submit">Lưu thay đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Debug code
+      document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.account__delete-btn');
+
+        deleteButtons.forEach(btn => {});
+      });
+    </script>
+
+  </div>
+</body>
+
+</html>

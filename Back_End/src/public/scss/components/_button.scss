@@ -1,0 +1,48 @@
+.btn {
+  width: 100px;
+  height: 32px;
+  border-radius: 8px;
+
+  &--danger {
+    background-color: #ff4d4f;
+    color: #fff;
+  }
+
+  &--save {
+    background-color: rgba(0, 133, 219, 0.8);
+    color: #000;
+  }
+
+  &--edit, &--edit-sub {
+    width: 50px;
+
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &--edit-parent{
+     & img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &--delete-sub{
+      
+    & img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &--delete , &--delete-sub{
+    width: 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: #fff;
+  }
+
+  & .icon{
+    width: 20px;height: 20px;
+  }
+}

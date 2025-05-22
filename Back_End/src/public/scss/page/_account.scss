@@ -1,0 +1,386 @@
+.account {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+  }
+
+  &__search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    height: 100%;
+    width: 250px;
+    background: #e8edf5;
+    border: #e8edf5 1px solid;
+    border-radius: 8px;
+  }
+
+  &__search-input {
+    background: #e8edf5;
+    width: 85%;
+  }
+
+  &__search-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  &__act {
+    padding: 20px;
+    border-radius: 8px;
+
+    &:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #e8edf5;
+      border: #e8edf5 1px solid;
+      padding: 2px;
+      width: 80px;
+      height: 40px;
+    }
+
+    &:last-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      color: #fff;
+      background: rgb(0, 133, 219);
+    }
+  }
+
+  &__act-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  &__main {
+    margin-top: 16px;
+  }
+
+  &__header-main {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    height: 80px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  &__label {
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    line-height: 1.1rem;
+    text-align: center;
+
+    &:first-child {
+      flex-basis: 20%;
+    }
+    &:nth-child(2) {
+      flex-basis: 30%;
+    }
+    &:nth-child(3) {
+      flex-basis: 30%;
+    }
+    &:nth-child(4) {
+      flex-basis: 20%;
+    }
+  }
+    &__act{
+      width: 175px;
+    }
+
+  &__empty {
+    margin-top: 16px;
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: 8px;
+
+    img {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #666;
+      font-size: 1.4rem;
+      margin: 0;
+    }
+  }
+
+  &__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    &.show {
+      display: flex;
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    &.show {
+      display: flex;
+    }
+
+    &__content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    &__title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    &__close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &__close-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &__subtitle {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #333;
+      margin: 16px 0;
+    }
+
+    &__form-add-account {
+      .modal__group-avatar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+
+        .modal__group-avatar-input {
+          flex: 1;
+        }
+
+        .preview-wrapper {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid #e5e7eb;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+
+      & .modal__account-info {
+        width: 500px;
+        height: 500px;
+      }
+    }
+
+    &__label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    &__input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1.4rem;
+
+      &:focus {
+        outline: none;
+        border-color: #0085db;
+      }
+    }
+
+    &__account-info {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    &__submit {
+      background: #0085db;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1.4rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: darken(#0085db, 10%);
+      }
+    }
+  }
+
+  &__main {
+    background: #fff;
+  }
+
+  &__list {
+    padding: 16px 16px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    padding: 25px 0;
+  }
+
+  &__avatar {
+    flex-basis: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    & img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__username {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-align: center;
+    flex-basis: 30%;
+  }
+
+  &__info {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-align: center;
+    flex-basis: 30%;
+  }
+
+  &__actions {
+    flex-basis: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__edit-btn {
+    border: 1px solid #d4d4d4;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 40px;
+    height: 40px;
+
+    & img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__delete-btn {
+    border: 1px solid #dcdcdc;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 40px;
+    height: 40px;
+
+    & img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tạo Category</title>
+  </head>
+  <body>
+    <h1>Tạo Category mới</h1>
+    <% if (error) { %>
+    <p style="color: red"><%= error %></p>
+    <% } %>
+    <form action="/api/categories" method="POST">
+      <label>Name: <input type="text" name="name" /></label><br />
+      <label
+        >Parent:
+        <select name="parent">
+          <option value="">— None —</option>
+          <% allCats.forEach(c => { %>
+          <option value="<%= c._id %>"><%= c.fullSlug %></option>
+          <% }) %>
+        </select> </label
+      ><br />
+      <button type="submit">Tạo</button>
+    </form>
+  </body>
+</html>

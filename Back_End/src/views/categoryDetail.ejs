@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chi tiết danh mục</title>
+  </head>
+  <body>
+    <h1>Chi tiết danh mục</h1>
+    <p><strong>Tên:</strong> <%= category.name %></p>
+    <p><strong>Slug:</strong> <%= category.slug %></p>
+    <p><strong>Full Slug:</strong> <%= category.fullSlug %></p>
+
+    <!-- Hiển thị danh mục con -->
+    <h2>Danh mục con</h2>
+    <% if (subCategories.length > 0) { %>
+      <ul>
+        <% subCategories.forEach(subCat => { %>
+          <li>
+            <a href="/categories/<%= subCat.fullSlug %>"><%= subCat.name %></a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>Không có danh mục con.</p>
+    <% } %>
+
+    <a href="/categories">Quay lại danh sách</a>
+  </body>
+</html>

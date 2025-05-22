@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="\css\main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+
+  <script src="vendor/ckeditor/ckeditor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <title>Quản lý đơn hàng</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="images/logo/logo.svg" alt="" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/home" class="dashboard-sidebar__link dashboard-sidebar__link--active">
+                    <img src="images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/setting" class="dashboard-sidebar__link">
+                    <img src="images/icons/setting.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Cài đặt</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <!-- Content -->
+          <div class="order">
+            <div class="container">
+              <!-- Header -->
+              <div class="order__header">
+                <!-- Search -->
+                <div class="order__search">
+                  <form action="/order" method="GET" class="order__search-form">
+                    <input type="text" name="search" class="order__search-input" placeholder="Tìm kiếm đơn hàng" />
+                    <button type="submit" class="order__search-btn">
+                      <img src="images/icons/search.svg" alt="" class="order__search-icon" />
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <!-- Body -->
+              <div class="order__body">
+                <!-- Header -->
+                <div class="order__header-main">
+                  <div class="order__label">Mã đơn</div>
+                  <div class="order__label">Khách hàng</div>
+                  <div class="order__label">Tổng tiền</div>
+                  <div class="order__label">Phương thức</div>
+                  <div class="order__label">Trạng thái</div>
+                  <div class="order__label">Thao tác</div>
+                </div>
+
+                <!-- List orders -->
+                <% if(orders && orders.length > 0) { %>
+                <% orders.forEach(order => { %>
+                <div class="order__item">
+                  <div class="order__info"><%= order.orderCode %></div>
+                  <div class="order__info"><%= order.customer.name %></div>
+                  <div class="order__info"><%= order.totalAmount.toLocaleString('vi-VN') %> đ</div>
+                  <div class="order__info"><%= order.paymentMethod %></div>
+                  <div class="order__info">
+                    <div class="order__status-wrapper">
+                      <% if (order.status === 'Chờ xác nhận') { %>
+                      <select class="order__status-select" onchange="updateOrderStatus(event, '<%= order._id %>', this.value)">
+                        <option value="Chờ xác nhận" selected>Chờ xác nhận</option>
+                        <option value="Đã xác nhận">Đã xác nhận</option>
+                      </select>
+                      <% } else { %>
+                      <span class="order__status <%= order.status.toLowerCase().replace(/\s+/g, '-') %>">
+                        <%= order.status %>
+                      </span>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="order__info">
+                    <button class="btn btn--view" onclick="openOrderModal('<%= order._id %>')">
+                      Xem chi tiết
+                    </button>
+                  </div>
+                </div>
+                <% }); %>
+                <% } else { %>
+                <div class="order__empty">
+                  <p>Không có đơn hàng nào</p>
+                </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal chi tiết đơn hàng -->
+    <div id="orderModal" class="modal modal--order">
+      <div class="modal__content">
+        <div class="modal__header">
+          <h2>Chi tiết đơn hàng</h2>
+          <span class="modal__close">&times;</span>
+        </div>
+        <div class="modal__body">
+          <!-- Nội dung chi tiết đơn hàng sẽ được thêm bằng JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/order.js"></script>
+  </div>
+</body>
+
+</html>

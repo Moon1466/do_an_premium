@@ -1,0 +1,383 @@
+// Variables
+$primary-color: #0085db;
+$secondary-color: #f5f5f5;
+$text-color: #333;
+$border-color: #e0e0e0;
+$success-color: #52c41a;
+$warning-color: #ffd666;
+$danger-color: #ff4d4f;
+$info-color: #40a9ff;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Dashboard Layout
+.dashboard {
+  min-height: 100vh;
+  background-color: $secondary-color;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: $text-color;
+
+  &__inner {
+    display: flex;
+    min-height: 100vh;
+  }
+}
+
+// Sidebar
+.dashboard-sidebar {
+  width: 280px;
+  background-color: #fff;
+  border-right: 1px solid $border-color;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+
+  &__wrapper {
+    padding: 2rem 0;
+  }
+
+  &__header {
+    padding: 0 2rem;
+    margin-bottom: 3rem;
+  }
+
+  &__img {
+    width: 150px;
+    height: auto;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    margin-bottom: 0.5rem;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    color: $text-color;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.05);
+      color: $primary-color;
+    }
+
+    &--active {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+      border-left-color: $primary-color;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 1rem;
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+// Main Content
+.dashboard__content {
+  flex: 1;
+  margin-left: 280px;
+  padding: 2rem;
+}
+
+// Stats Cards
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stats-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  @include card-shadow;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    @include flex-center;
+    margin-right: 1rem;
+
+    &--revenue {
+      background-color: rgba($primary-color, 0.1);
+    }
+
+    &--orders {
+      background-color: rgba($success-color, 0.1);
+    }
+
+    &--products {
+      background-color: rgba($warning-color, 0.1);
+    }
+
+    &--users {
+      background-color: rgba($info-color, 0.1);
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: $text-color;
+  }
+
+  &__change {
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+
+    &--up {
+      color: $success-color;
+    }
+
+    &--down {
+      color: $danger-color;
+    }
+
+    span {
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+// Charts
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  @include card-shadow;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  &__select {
+    padding: 0.5rem 1rem;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    background-color: #fff;
+    color: $text-color;
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+
+  &__body {
+    height: 300px;
+  }
+}
+
+// Recent Orders
+.recent-orders {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  @include card-shadow;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  &__link {
+    color: $primary-color;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: darken($primary-color, 10%);
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid $border-color;
+    }
+
+    th {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    td {
+      font-size: 0.875rem;
+      color: $text-color;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+// Order Status Badge
+.order-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &--pending {
+    background-color: rgba($warning-color, 0.1);
+    color: darken($warning-color, 20%);
+  }
+
+  &--confirmed {
+    background-color: rgba($info-color, 0.1);
+    color: darken($info-color, 20%);
+  }
+
+  &--shipping {
+    background-color: rgba($primary-color, 0.1);
+    color: darken($primary-color, 20%);
+  }
+
+  &--delivered {
+    background-color: rgba($success-color, 0.1);
+    color: darken($success-color, 20%);
+  }
+
+  &--cancelled {
+    background-color: rgba($danger-color, 0.1);
+    color: darken($danger-color, 20%);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .dashboard-sidebar {
+    width: 240px;
+  }
+
+  .dashboard__content {
+    margin-left: 240px;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-sidebar {
+    width: 200px;
+  }
+
+  .dashboard__content {
+    margin-left: 200px;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    width: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+
+    &--active {
+      width: 240px;
+      transform: translateX(0);
+    }
+  }
+
+  .dashboard__content {
+    margin-left: 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

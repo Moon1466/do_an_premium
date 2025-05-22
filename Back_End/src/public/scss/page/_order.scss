@@ -1,0 +1,348 @@
+.order {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+  }
+
+  &__search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    height: 100%;
+    width: 250px;
+    background: #e8edf5;
+    border: #e8edf5 1px solid;
+    border-radius: 8px;
+  }
+
+  &__search-input {
+    background: #e8edf5;
+    width: 85%;
+  }
+
+  &__search-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  &__act {
+    padding: 20px;
+    border-radius: 8px;
+
+    &:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #e8edf5;
+      border: #e8edf5 1px solid;
+      padding: 2px;
+      width: 80px;
+      height: 40px;
+    }
+
+    &:last-child {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      color: #fff;
+      background: rgb(0, 133, 219);
+    }
+  }
+
+  &__act-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  &__main {
+    margin-top: 16px;
+  }
+
+  &__header-main {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    height: 80px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  &__label {
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    line-height: 1.1rem;
+    text-align: center;
+
+    &:first-child {
+      flex-basis: 15%;
+    }
+    &:nth-child(2) {
+      flex-basis: 20%;
+    }
+    &:nth-child(3) {
+      flex-basis: 20%;
+    }
+    &:nth-child(4) {
+      flex-basis: 12.5%;
+    }
+    &:nth-child(5) {
+      flex-basis: 12.5%;
+    }
+    &:nth-child(6) {
+      flex-basis: 20%;
+    }
+    &:nth-child(7) {
+      flex-basis: 10%;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &__info {
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    text-align: center;
+
+    &:first-child {
+      flex-basis: 15%;
+    }
+    &:nth-child(2) {
+      flex-basis: 20%;
+    }
+    &:nth-child(3) {
+      flex-basis: 20%;
+    }
+    &:nth-child(4) {
+      flex-basis: 12.5%;
+    }
+    &:nth-child(5) {
+      flex-basis: 12.5%;
+    }
+    &:nth-child(6) {
+      flex-basis: 20%;
+    }
+    &:nth-child(7) {
+      flex-basis: 10%;
+    }
+  }
+
+  &__status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    &.chờ-xác-nhận {
+      background: #fff7e6;
+      color: #d46b08;
+    }
+
+    &.đã-xác-nhận {
+      background: #e6f4ff;
+      color: #0958d9;
+    }
+
+    &.đang-giao-hàng {
+      background: #e6fffb;
+      color: #08979c;
+    }
+
+    &.đã-giao-hàng {
+      background: #f6ffed;
+      color: #389e0d;
+    }
+
+    &.đã-hủy {
+      background: #fff1f0;
+      color: #cf1322;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    margin-top: 16px;
+    background: #fff;
+    border-radius: 8px;
+
+    p {
+      font-size: 1.6rem;
+      color: #8c8c8c;
+    }
+  }
+
+  &__status-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  &__status-select {
+    appearance: none;
+    padding: 4px 24px 4px 12px;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    background: #fff7e6;
+    color: #d46b08;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #ffa940;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #ffa940;
+      box-shadow: 0 0 0 2px rgba(255, 169, 64, 0.2);
+    }
+
+    /* Tạo mũi tên dropdown custom */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d46b08' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+
+  &__status-select[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+    &:hover {
+      border-color: #d9d9d9;
+    }
+  }
+}
+
+.btn {
+  &--view {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: #1890ff;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #096dd9;
+    }
+  }
+}
+
+ 
+
+.order-detail {
+  &__section {
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+  }
+
+  &__info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: 1.4rem;
+    color: #666;
+  }
+
+  &__value {
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  &__products {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    th {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #666;
+      background-color: #fafafa;
+    }
+
+    td {
+      font-size: 1.4rem;
+      color: #1a1a1a;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+}

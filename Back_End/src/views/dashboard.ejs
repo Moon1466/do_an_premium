@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="\css\main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="vendor/ckeditor/ckeditor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="images/logo/logo.svg" alt="" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/home" class="dashboard-sidebar__link dashboard-sidebar__link--active">
+                    <img src="images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/setting" class="dashboard-sidebar__link">
+                    <img src="images/icons/setting.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Cài đặt</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stats-card">
+              <div class="stats-card__icon stats-card__icon--revenue">
+                <img src="images/icons/revenue.svg" alt="Revenue" />
+              </div>
+              <div class="stats-card__content">
+                <h3 class="stats-card__title">Tổng doanh thu đã thu</h3>
+                <p class="stats-card__value"> <%- new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalRevenue || 0) %> </p>
+              </div>
+            </div>
+
+            <div class="stats-card">
+              <div class="stats-card__icon stats-card__icon--orders">
+                <img src="images/icons/order.svg" alt="Orders" />
+              </div>
+              <div class="stats-card__content">
+                <h3 class="stats-card__title">Đơn hàng</h3>
+                <p class="stats-card__value"><%= totalOrders || 0 %></p>
+              </div>
+            </div>
+
+            <div class="stats-card">
+              <div class="stats-card__icon stats-card__icon--products">
+                <img src="images/icons/product.svg" alt="Products" />
+              </div>
+              <div class="stats-card__content">
+                <h3 class="stats-card__title">Sản phẩm</h3>
+                <p class="stats-card__value"><%= totalProducts || 0 %></p>
+              </div>
+            </div>
+
+            <div class="stats-card">
+              <div class="stats-card__icon stats-card__icon--users">
+                <img src="images/icons/account.svg" alt="Users" />
+              </div>
+              <div class="stats-card__content">
+                <h3 class="stats-card__title">Khách hàng</h3>
+                <p class="stats-card__value"><%= totalUsers || 0 %></p>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-grid">
+            <!-- Revenue Chart -->
+            <div class="chart-card chart-card--revenue">
+              <div class="chart-card__header">
+                <h3 class="chart-card__title">Doanh thu từ đơn đã thanh toán</h3>
+                <div class="chart-card__actions">
+                  <select class="chart-card__select" id="revenueChartYear">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                  </select>
+                </div>
+              </div>
+              <div class="chart-card__body">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Orders Chart -->
+            <div class="chart-card chart-card--orders">
+              <div class="chart-card__header">
+                <h3 class="chart-card__title">Đơn hàng theo trạng thái</h3>
+                <button id="updateOrdersStatusBtn" class="chart-card__btn">Cập nhật trạng thái</button>
+              </div>
+              <div class="chart-card__body">
+                <canvas id="orderStatusChart"></canvas>
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="recent-orders">
+            <div class="recent-orders__header">
+              <h3 class="recent-orders__title">Đơn hàng gần đây</h3>
+              <a href="/order" class="recent-orders__link">Xem tất cả</a>
+            </div>
+            <div class="recent-orders__body">
+              <table class="recent-orders__table">
+                <thead>
+                  <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Khách hàng</th>
+                    <th>Sản phẩm</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thanh toán</th>
+                    <th>Ngày đặt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% recentOrders.forEach(order => { %>
+                  <tr>
+                    <td>#<%= order._id %></td>
+                    <td><%= order.customerName %></td>
+                    <td><%= order.items ? order.items.length : 0 %> sản phẩm</td>
+                    <td><%- new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.totalAmount) %></td>
+                    <td>
+                      <span class="order-status order-status--<%= order.status.toLowerCase().replace(/\s+/g, '-') %>">
+                        <%= order.status %>
+                        <% if (order.originalStatus && order.originalStatus !== order.status) { %>
+                        <small>(<%= order.originalStatus %>)</small>
+                        <% } %>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="payment-status payment-status--<%= order.paymentStatus === 'Đã thanh toán' ? 'paid' : 'unpaid' %>">
+                        <%= order.paymentStatus %>
+                      </span>
+                    </td>
+                    <td><%= new Date(order.createdAt).toLocaleDateString('vi-VN') %></td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    const revenueData = JSON.parse('<%- JSON.stringify(monthlyRevenue) %>');
+
+    new Chart(revenueCtx, {
+      type: 'line',
+      data: {
+        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+        datasets: [{
+          label: 'Doanh thu',
+          data: revenueData,
+          borderColor: '#0085db',
+          backgroundColor: 'rgba(0, 133, 219, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                  maximumFractionDigits: 0
+                }).format(value);
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Order Status Chart
+    const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+    const orderStatusData = JSON.parse('<%- JSON.stringify(orderStatusCount) %>');
+
+    new Chart(orderStatusCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Đang xử lý', 'Hoàn thành', 'Đã hủy'],
+        datasets: [{
+          data: Object.values(orderStatusData),
+          backgroundColor: [
+            '#ffd666', // Vàng - Đang xử lý (gồm: Chờ xác nhận, Đã xác nhận, Đang giao hàng)
+            '#52c41a', // Xanh lá - Hoàn thành (Đã giao hàng)
+            '#ff4d4f' // Đỏ - Đã hủy
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                const total = context.dataset.data.reduce((acc, data) => acc + data, 0);
+                const percentage = Math.round((value * 100) / total) + '%';
+                return `${label}: ${value} (${percentage})`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+
+
+    // Xử lý sự kiện nút cập nhật trạng thái đơn hàng
+    document.getElementById('updateOrdersStatusBtn').addEventListener('click', async function() {
+      try {
+        this.disabled = true;
+        this.textContent = 'Đang cập nhật...';
+
+        const response = await fetch('/api/orders/update-all-paid', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert(`${data.message}. Trang sẽ tự động tải lại.`);
+          window.location.reload();
+        } else {
+          alert('Có lỗi xảy ra: ' + data.message);
+          this.disabled = false;
+          this.textContent = 'Cập nhật trạng thái';
+        }
+      } catch (error) {
+        console.error('Lỗi khi cập nhật:', error);
+        alert('Có lỗi xảy ra khi gửi yêu cầu.');
+        this.disabled = false;
+        this.textContent = 'Cập nhật trạng thái';
+      }
+    });
+  </script>
+</body>
+
+</html>

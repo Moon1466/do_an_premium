@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+  <title>Danh mục</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="/images/logo/logo.svg" alt="Logo" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/" class="dashboard-sidebar__link">
+                    <img src="/images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="/images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="/images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="/images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="/images/icons/comment.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Đánh giá</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <!-- Header sản phẩm -->
+          <div class="comment">
+            <div class="container">
+              <!-- Thanh tìm kiếm và lọc -->
+              <div class="comment__header">
+                <div class="comment__search">
+                  <form action="/comment" method="GET" class="comment__search-form">
+                    <input type="text" name="search" class="comment__search-input" placeholder="Tìm kiếm sản phẩm" value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>" />
+                    <button type="submit" class="comment__search-btn">
+                      <img src="/images/icons/search.svg" alt="" class="comment__search-icon" />
+                    </button>
+                  </form>
+                </div>
+                <div class="comment__actions">
+                  <div class="comment__filter">
+                    <button class="comment__act" id="filterButton">
+                      <img src="/images/icons/filter.svg" alt="" class="comment__act-icon" />
+                      <span class="comment__text">Lọc</span>
+                    </button>
+                    <div class="comment__filter-dropdown" id="filterDropdown" style="display: none;">
+                      <div class="comment__filter-content">
+                        <div class="comment__filter-group">
+                          <div class="comment__filter-title">Đánh giá</div>
+                          <div class="comment__filter-options">
+                            <div class="comment__filter-option" data-filter="rating" data-value="5">
+                              <span>5 sao</span>
+                            </div>
+                            <div class="comment__filter-option" data-filter="rating" data-value="4">
+                              <span>4 sao</span>
+                            </div>
+                            <div class="comment__filter-option" data-filter="rating" data-value="3">
+                              <span>3 sao</span>
+                            </div>
+                            <div class="comment__filter-option" data-filter="rating" data-value="2">
+                              <span>2 sao</span>
+                            </div>
+                            <div class="comment__filter-option" data-filter="rating" data-value="1">
+                              <span>1 sao</span>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Có thể thêm các nhóm lọc khác nếu muốn -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="comment__header-main">
+                <div class="comment__header-col">Hình ảnh sản phẩm</div>
+                <div class="comment__header-col">Tên sản phẩm</div>
+                <div class="comment__header-col">Đánh giá</div>
+                <div class="comment__header-col">Xem chi tiết</div>
+              </div>
+              <!-- Danh sách sản phẩm -->
+              <div class="comment__body">
+                <% if (products && products.length > 0) { %>
+                <% products.forEach(product => { %>
+                <div class="comment__row">
+                  <div class="comment__col">
+                    <img src="<%= product.image %>" alt="<%= product.name %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                  </div>
+                  <div class="comment__col"><%= product.name %></div>
+                  <div class="comment__col">
+                    <div class="comment__rating">
+                      <% for(let i = 0; i < 5; i++) { %>
+                      <img src="/images/icons/star.svg" style="width: 18px; opacity: <%= i < product.rating ? 1 : 0.2 %>;">
+                      <% } %>
+                    </div>
+                    <div class="comment__rating-text"><span>(<%= product.rating %>/5)</span></div>
+                  </div>
+                  <div class="comment__col">
+                    <a href="/product/<%= product._id %>" class="btn comment__btn-detail">
+                      <img src="/images/icons/viewDetail.svg" alt="" class="comment__detail-icon">
+                    </a>
+                  </div>
+                </div>
+                <% }) %>
+                <% } else { %>
+                <div style="padding: 20px; text-align: center; color: #888;">Không có sản phẩm nào.</div>
+                <% } %>
+                <!-- Kết thúc danh sách sản phẩm -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal xem chi tiết đánh giá -->
+  <div class="modal" id="commentDetailModal" style="display:none;">
+    <div class="modal__overlay"></div>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 id="modalProductName">Chi tiết đánh giá</h3>
+        <button class="modal__close" id="closeCommentModal">&times;</button>
+      </div>
+      <div class="modal__body">
+        <!-- Thống kê đánh giá -->
+        <div id="modalRatingStats"></div>
+        <!-- Danh sách bình luận -->
+        <div id="modalCommentList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/comment.js"></script>
+</body>
+
+</html>

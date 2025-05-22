@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="\css\main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+
+  <script src="vendor/ckeditor/ckeditor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <title>Home</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="images/logo/logo.svg" alt="" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/home" class="dashboard-sidebar__link dashboard-sidebar__link--active">
+                    <img src="images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/setting" class="dashboard-sidebar__link">
+                    <img src="images/icons/setting.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Cài đặt</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <!-- Content -->
+          <div class="product">
+            <div class="container">
+              <!-- Header -->
+              <div class="product__header">
+                <!-- Search -->
+                <div class="product__search">
+                  <form action="/product" method="GET" class="product__search-form">
+                    <input type="text" name="search" class="product__search-input" placeholder="Tìm kiếm sản phẩm" value="<%= locals.searchTerm || '' %>" />
+                    <button type="submit" class="product__search-btn">
+                      <img src="images/icons/search.svg" alt="" class="product__search-icon" />
+                    </button>
+                  </form>
+                </div>
+                <!-- Action -->
+                <div class="product__actions">
+                  <div class="product__filter">
+                    <button class="product__act" id="filterButton">
+                      <img src="images/icons/filter.svg" alt="" class="product__act-icon" />
+                      <span class="product__text">Lọc</span>
+                    </button>
+                    <div class="product__filter-dropdown" id="filterDropdown">
+
+                      <div class="product__filter-content">
+
+                        <div class="product__filter-group">
+                          <div class="product__filter-title">Thời gian</div>
+                          <div class="product__filter-options">
+                            <div class="product__filter-option" data-sort="newest">
+                              <span>Mới nhất</span>
+                            </div>
+                            <div class="product__filter-option" data-sort="oldest">
+                              <span>Cũ nhất</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="product__filter-group">
+                          <div class="product__filter-title">Tên</div>
+                          <div class="product__filter-options">
+                            <div class="product__filter-option" data-sort="asc">
+                              <span>A -> Z</span>
+                            </div>
+                            <div class="product__filter-option" data-sort="desc">
+                              <span>Z -> A</span>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="product__filter-group">
+                          <div class="product__filter-title">Trạng thái</div>
+                          <div class="product__filter-options">
+                            <div class="product__filter-option" data-filter="status" data-value="active">
+                              <span>Đang hoạt động</span>
+                            </div>
+                            <div class="product__filter-option" data-filter="status" data-value="inactive">
+                              <span>Ngừng hoạt động</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="product__filter-group">
+                          <div class="product__filter-title">Giảm giá</div>
+                          <div class="product__filter-options">
+                            <div class="product__filter-option" data-filter="sale" data-value="true">
+                              <span>Đang giảm giá</span>
+                            </div>
+                            <div class="product__filter-option" data-filter="sale" data-value="false">
+                              <span>Không giảm giá</span>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <button class="product__act" id="addProduct">
+                    <img src="images/icons/add.svg" alt="" class="product__act-icon" />
+                    <span class="product__text">Thêm sản phẩm</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Body -->
+              <div class="product__main">
+                <!-- Header -->
+                <div class="product__header-main">
+                  <div class="product__label">Tên sản phẩm</div>
+                  <div class="product__label">Giá</div>
+                  <div class="product__label">Tồn kho</div>
+                  <div class="product__label">Trạng thái</div>
+                  <div class="product__label">Giảm giá</div>
+                  <div class="product__label">Thao tác</div>
+                </div>
+                <!-- Body -->
+                <% if (products.length === 0) { %>
+                <div class="product__empty" style="text-align: center; padding: 40px; color: #666; font-size: 16px; background: #f8f9fa; border-radius: 8px; margin: 20px 0;">
+                  <img src="images/icons/product_not_found.png" alt="No products" style="width: 64px; height: 64px; margin-bottom: 16px;">
+                  <p style="margin: 0; font-size: 1.2rem; font-weight: 400; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.1rem;">Không tìm thấy sản phẩm nào phù hợp với từ khóa "<%= searchTerm %>"</p>
+                </div>
+                <% } else { %>
+                <% products.forEach(product => { %>
+                <div class="product__body-main">
+                  <div class="product__image">
+                    <img src="<%= product.images && product.images[0] ? product.images[0] : '/images/products/default.jpg' %>" alt="" class="product__img" />
+                  </div>
+                  <div class="product__name"><%= product.name %></div>
+                  <div class="product__price"><%= product.price.toLocaleString() %> đ</div>
+                  <div class="product__stock"><%= product.stock %></div>
+                  <div class="product__status">
+                    <div class="product__selected <%= product.active ? 'product__status-active' : 'product__status-inactive' %>" data-product-id="<%= product._id %>">
+                      <%= product.active ? 'Active' : 'Inactive' %>
+                    </div>
+                    <div class="product__select-box">
+                      <div class="product__option-container">
+                        <div class="product__option">
+                          <input type="radio" id="active-<%= product._id %>" name="status-<%= product._id %>" value="true" <%= product.active ? 'checked' : '' %> <%= product.stock === 0 ? 'disabled' : '' %> />
+                          <label for="active-<%= product._id %>">Active</label>
+                        </div>
+                        <div class="product__option">
+                          <input type="radio" id="inactive-<%= product._id %>" name="status-<%= product._id %>" value="false" <%= !product.active ? 'checked' : '' %> />
+                          <label for="inactive-<%= product._id %>">Inactive</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="product__sale">
+                    <span class="product__sale-label <%= product.isSale ? 'product__sale-label--active' : 'product__sale-label--inactive' %>">
+                      <% if (product.isSale) { %>
+                      <span class="product__sale-icon">✓</span>
+                      <% } else { %>
+                      <span class="product__sale-icon">✗</span>
+                      <% } %>
+                    </span>
+                  </div>
+                  <div class="product__action">
+                    <button class="product__btn edit-product" data-product-id="<%= product._id %>">
+                      <img src="images/icons/edit.svg" alt="" class="product__btn-icon" />
+                    </button>
+                    <button class="product__btn delete-product" data-product-id="<%= product._id %>">
+                      <img src="images/icons/delete.svg" alt="" class="product__btn-icon" />
+                    </button>
+                  </div>
+                </div>
+                <% }) %>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <!-- Modal -->
+
+          <div class="modal modal--large" id="modal_addProduct">
+            <div class="modal__content">
+              <div class="modal__header">
+                <h2 class="modal__title">Thêm sản phẩm</h2>
+                <button class="modal__close" id="closeModal">
+                  <img src="images/icons/close.svg" alt="" class="modal__close-icon" id="closeModalButton" />
+                </button>
+              </div>
+              <form action="" class="modal__form">
+                <div class="modal__group-image">
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình ảnh</label>
+                    <input type="file" name="images" class="modal__input" placeholder="Nhập tên sản phẩm" />
+                    <div class="preview-wrapper">
+                      <img id="previewImage" src="" alt="Preview Image">
+                    </div>
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình ảnh phụ</label>
+                    <input type="file" name="subImages" class="modal__input" multiple placeholder="Nhập tên sản phẩm" />
+                    <div class="preview-wrapper">
+                      <div id="previewSubImages"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal__group">
+                  <label for="" class="modal__label">Tên sản phẩm</label>
+                  <input type="text" name="name" class="modal__input" placeholder="Nhập tên sản phẩm" />
+                </div>
+                <div class="modal__group">
+                  <label for="" class="modal__label">Giá</label>
+                  <input type="text" name="price" class="modal__input" placeholder="Nhập giá sản phẩm" />
+                </div>
+                <div class="modal__group">
+                  <label for="" class="modal__label">Tồn kho</label>
+                  <input type="text" name="stock" class="modal__input" placeholder="Nhập số lượng tồn kho" />
+                </div>
+                <div class="modal__group-sale">
+                  <div class="modal__group">
+                    <label class="modal__label">Đang giảm giá</label>
+                    <select name="isSale" class="modal__input" id="isSaleSelect">
+                      <option value="false" selected>Không</option>
+                      <option value="true">Có</option>
+                    </select>
+                  </div>
+                  <div class="modal__group">
+                    <label class="modal__label">Phần trăm giảm giá (%)</label>
+                    <input type="number" name="sale" class="modal__input" min="1" max="100" placeholder="Nhập % giảm giá" />
+                  </div>
+                </div>
+                <div>
+                  <div class="modal__group" style="display: flex; gap: 16px; flex-direction: row;justify-content: flex-start;">
+                    <label class="modal__label">Trạng thái</label>
+                    <div style="display: flex; gap: 16px;">
+                      <label>
+                        <input type="radio" name="active" value="true" checked /> Active
+                      </label>
+                      <label>
+                        <input type="radio" name="active" value="false" /> Inactive
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal__separator"></div>
+
+                <h3 class="modal__heading">Thông tin</h3>
+                <div class="modal__product-info">
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Nhà cung cấp</label>
+                    <input type="text" class="modal__input" name="supplier" placeholder="Nhập nhà cung cấp" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Nhà xuất bản</label>
+                    <input type="text" class="modal__input" name="publisher" placeholder="Nhập nhà xuất bản" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình thức</label>
+                    <input type="text" class="modal__input" name="type" placeholder="Nhập hình thức" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Tác giả</label>
+                    <input type="text" class="modal__input" name="author" placeholder="Nhập tác giả" />
+                  </div>
+                </div>
+                <div class="modal__group-category">
+                  <div class="modal__group">
+                    <label for="parentCategory" class="modal__label">Danh mục cha</label>
+                    <select name="parentCategory" id="parentCategory" class="modal__input" required>
+                      <option value="">-- Chọn danh mục cha --</option>
+                      <% parentCategories.forEach(cat => { %>
+                      <option value="<%= cat._id.toString() %>"><%= cat.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="modal__group">
+                    <label for="subCategory" class="modal__label">Danh mục con</label>
+                    <select name="category" id="subCategory" class="modal__input" required>
+                      <option value="">-- Chọn danh mục con --</option>
+                      <% childCategories.forEach(cat => { %>
+                      <% if (cat && cat._id && cat.name && cat.name.trim() !== "") { %>
+                      <option value="<%= cat._id.toString() %>"><%= cat.name %></option>
+                      <% } %>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal__group">
+                  <label for="" class="modal__label">Mô tả</label>
+                  <textarea name="description" id="description"></textarea>
+                </div>
+
+                <div class="modal__send">
+                  <button type="submit" class="btn modal__submit btn--primary">Thêm sản phẩm</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Modal Edit Product -->
+          <div class="modal modal--large" id="modal_editProduct">
+            <div class="modal__content">
+              <div class="modal__header">
+                <h2 class="modal__title">Xem chi tiêt</h2>
+                <button class="modal__close" id="closeEditModal">
+                  <img src="images/icons/close.svg" alt="" class="modal__close-icon" />
+                </button>
+                <button class="modal__edit">
+                  <img src="images/icons/edit.svg" alt="" class="modal__edit-icon" />
+                </button>
+              </div>
+              <form action="" class="modal__form" id="editProductForm">
+                <input type="hidden" name="productId" id="editProductId">
+                <div class="modal__group-image">
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình ảnh</label>
+                    <input type="file" name="images" class="modal__input" placeholder="Nhập tên sản phẩm" />
+                    <div class="preview-wrapper">
+                      <img id="currentImage" src="" alt="Current Image">
+                    </div>
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình ảnh phụ</label>
+                    <input type="file" name="subImages" class="modal__input" multiple placeholder="Nhập tên sản phẩm" />
+                    <div class="preview-wrapper">
+                      <div id="currentSubImages"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal__group">
+                  <label for="" class="modal__label">Tên sản phẩm</label>
+                  <input type="text" name="name" class="modal__input" placeholder="Nhập tên sản phẩm" />
+                </div>
+                <div class="modal__group">
+                  <label for="" class="modal__label">Giá</label>
+                  <input type="text" name="price" class="modal__input" placeholder="Nhập giá sản phẩm" />
+                </div>
+                <div class="modal__group">
+                  <label for="" class="modal__label">Tồn kho</label>
+                  <input type="text" name="stock" class="modal__input" placeholder="Nhập số lượng tồn kho" />
+                </div>
+                <div class="modal__group-sale">
+                  <div class="modal__group">
+                    <label class="modal__label">Đang giảm giá</label>
+                    <select name="isSale" class="modal__input" id="editIsSaleSelect">
+                      <option value="false">Không</option>
+                      <option value="true">Có</option>
+                    </select>
+                  </div>
+                  <div class="modal__group">
+                    <label class="modal__label">Phần trăm giảm giá (%)</label>
+                    <input type="number" name="sale" class="modal__input" min="1" max="100" placeholder="Nhập % giảm giá" />
+                  </div>
+                </div>
+                <div>
+                  <div class="modal__group" style="display: flex; gap: 16px; flex-direction: row;justify-content: flex-start;">
+                    <label class="modal__label">Trạng thái</label>
+                    <div style="display: flex; gap: 16px;">
+                      <label>
+                        <input type="radio" name="active" value="true" checked /> Active
+                      </label>
+                      <label>
+                        <input type="radio" name="active" value="false" /> Inactive
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal__separator"></div>
+
+                <h3 class="modal__heading">Thông tin</h3>
+                <div class="modal__product-info">
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Nhà cung cấp</label>
+                    <input type="text" class="modal__input" name="supplier" placeholder="Nhập nhà cung cấp" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Nhà xuất bản</label>
+                    <input type="text" class="modal__input" name="publisher" placeholder="Nhập nhà xuất bản" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Hình thức</label>
+                    <input type="text" class="modal__input" name="type" placeholder="Nhập hình thức" />
+                  </div>
+                  <div class="modal__group">
+                    <label for="" class="modal__label">Tác giả</label>
+                    <input type="text" class="modal__input" name="author" placeholder="Nhập tác giả" />
+                  </div>
+                </div>
+                <div class="modal__group-category">
+                  <div class="modal__group">
+                    <label for="parentCategory" class="modal__label">Danh mục cha</label>
+                    <select name="parentCategory" id="parentCategory" class="modal__input" required>
+                      <option value="">-- Chọn danh mục cha --</option>
+                      <% parentCategories.forEach(cat => { %>
+                      <option value="<%= cat._id.toString() %>"><%= cat.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="modal__group">
+                    <label for="subCategory" class="modal__label">Danh mục con</label>
+                    <select name="category" id="subCategory" class="modal__input" required>
+                      <option value="">-- Chọn danh mục con --</option>
+                      <% childCategories.forEach(cat => { %>
+                      <% if (cat && cat._id && cat.name && cat.name.trim() !== "") { %>
+                      <option value="<%= cat._id.toString() %>"><%= cat.name %></option>
+                      <% } %>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal__group">
+                  <label for="" class="modal__label">Mô tả</label>
+                  <textarea name="description" id="description"></textarea>
+                </div>
+
+                <div class="modal__send">
+                  <button type="submit" class="btn modal__submit btn--primary">Cập nhật sản phẩm</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.categories = <%- JSON.stringify(categories || []) %>;
+  </script>
+
+  <script>
+    window.childCategories = <%- JSON.stringify(childCategories || []) %>;
+  </script>
+
+  <script src="js/product.js"></script>
+  <script src="js/productFilter.js"></script>
+
+</body>
+
+</html>

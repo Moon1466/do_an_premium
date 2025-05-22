@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+  <title>Danh mục</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="container">
+      <div class="dashboard__inner">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+          <div class="dashboard-sidebar__wrapper">
+            <!-- Header -->
+            <div class="dashboard-sidebar__header">
+              <img src="images/logo/logo.svg" alt="" class="dashboard-sidebar__img" />
+            </div>
+            <!-- Body -->
+            <div class="dashboard-sidebar__body">
+              <ul class="dashboard-sidebar__list">
+                <li class="dashboard-sidebar__item">
+                  <a href="/home" class="dashboard-sidebar__link dashboard-sidebar__link--active">
+                    <img src="images/icons/dashboard.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/product" class="dashboard-sidebar__link">
+                    <img src="images/icons/product.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Sản phẩm</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/category" class="dashboard-sidebar__link">
+                    <img src="/images/icons/category.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/order" class="dashboard-sidebar__link">
+                    <img src="images/icons/order.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Thanh toán</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/account" class="dashboard-sidebar__link">
+                    <img src="images/icons/account.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Tài khoản</span>
+                  </a>
+                </li>
+                <li class="dashboard-sidebar__item">
+                  <a href="/setting" class="dashboard-sidebar__link">
+                    <img src="images/icons/setting.svg" alt="" class="dashboard-sidebar__icon" />
+                    <span class="dashboard-sidebar__text">Cài đặt</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="dashboard__content">
+          <div class="category">
+            <div class="container">
+              <!-- Header -->
+              <div class="category__header">
+                <div class="category__actions">
+                  <button class="category__act" id="addCategory">
+                    <img src="/images/icons/add.svg" alt="" class="category__act-icon" />
+                    <span class="category__text">Thêm danh mục</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Body -->
+              <div class="category__body">
+                <ul class="category__list">
+                  <% categories.forEach(cat => { %>
+                  <li class="category-item">
+                    <div class="category-item__content">
+                      <div class="category-item__name"><%= cat.name %></div>
+                      <div class="category-item__quantity">
+                        Số lượng danh mục con: <%= cat.subCategoriesCount %>
+                      </div>
+                    </div>
+                    <div class="category-item__actions">
+                      <button class="category-item__act category-item__act--view" data-category-id="<%= cat._id %>">
+                        <img src="/images/icons/viewDetail.svg" alt="Xem chi tiết" class="category-item__act-icon" />
+                      </button>
+                    </div>
+                  </li>
+                  <% }) %>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal thêm danh mục -->
+          <div id="addCategoryModal" class="modal modal--medium" style="display: none">
+            <div class="modal__content">
+              <button id="closeModal"><span class="close">&times;</span></button>
+              <h2 class="modal__title">Thêm danh mục mới</h2>
+              <form id="addCategoryForm" class="modal__form-add-category">
+                <div class="form-group">
+                  <label for="categoryName">Tên danh mục:</label>
+                  <input type="text" id="categoryName" name="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="parentCategory">Danh mục cha:</label>
+                  <select id="parentCategory" name="parent">
+                    <option value="">Không có</option>
+                    <% categories.forEach(cat => { %>
+                    <option value="<%= cat._id %>"><%= cat.name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="form__action">
+                  <button type="submit" class="btn form__btn">Thêm</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Modal xác nhận xóa -->
+          <div id="deleteCategoryModal" class="modal modal--medium" style="display: none">
+            <div class="modal__content">
+              <button id="closeDeleteModal"><span class="close">&times;</span></button>
+              <h2 class="modal__title">Xác nhận xóa</h2>
+              <p class="modal__desc">Bạn có chắc chắn muốn xóa danh mục này không?</p>
+              <div class="modal__action">
+                <button id="confirmDelete" class="btn btn--danger">Xóa</button>
+                <button id="cancelDelete" class="btn btn--close">Hủy</button>
+              </div>
+            </div>
+          </div>
+          <!-- Modal sửa danh mục -->
+          <div id="editCategoryModal" class="modal modal--small-horizontal" style="display: none">
+            <div class="modal__content">
+              <button id="closeEditModal"><span class="close">&times;</span></button>
+              <h2 class="modal__title">Sửa danh mục</h2>
+              <form id="editCategoryForm" class="modal__form-edit-category">
+                <div class="form-group">
+                  <label for="editCategoryName">Tên danh mục:</label>
+                  <input type="text" id="editCategoryName" name="name" required />
+                </div>
+                <div class="form__action">
+                  <button type="submit" class="btn btn--save">Lưu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Modal xem chi tiết -->
+          <div id="viewCategoryModal" class="modal modal--medium" style="display: none">
+            <div class="modal__content">
+              <button id="closeViewModal"><span class="close">&times;</span></button>
+              <h2 class="modal__title">Thông tin danh mục</h2>
+              <div class="modal__category">
+                <div class="modal-category__header">
+                  <p class="modal-category__heading">
+                    <strong>Tên danh mục:</strong> <span id="viewCategoryName"></span>
+                  </p>
+                  <div class="modal-category__actions">
+                    <button id="editCategoryButton" class="btn btn--edit">
+                      <img src="/images/icons/edit.svg" alt="" class="icon" />
+                    </button>
+                    <button id="deleteCategoryButton" class="btn btn--delete">
+                      <img src="/images/icons/delete.svg" alt="" class="icon" />
+                    </button>
+                  </div>
+                </div>
+                <p class="modal-category__quantity">
+                  <strong>Số lượng danh mục con: </strong> <span id="viewSubCategoryCount"></span>
+                </p>
+                <p id="viewSubCategoriesTitle" class="modal-category__title" style="display:none;">
+                  <strong>Gồm có:</strong>
+                </p>
+                <ul id="viewSubCategoriesList"></ul>
+                <!-- Trong modal xem chi tiết, chỉ để 1 cặp nút này -->
+
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/category.js"></script>
+</body>
+
+</html>

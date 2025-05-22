@@ -1,0 +1,208 @@
+.product {
+  // ... existing code ...
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__filter {
+    position: relative;
+    display: inline-block;
+
+    &-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      min-width: 480px;
+      z-index: 1000;
+      border: 1px solid #eee;
+      overflow: hidden;
+    }
+
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+      background-color: #f8f9fa;
+
+      span {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #333;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+    }
+
+    &-reset {
+      padding: 4px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      span {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #666;
+      }
+
+      &:hover {
+        background-color: #f5f5f5;
+        border-color: #ddd;
+      }
+    }
+
+    &-content {
+      display: flex;
+      gap: 1px;
+      background-color: #eee;
+    }
+
+    &-column {
+      flex: 1;
+      min-width: 240px;
+      background-color: white;
+
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
+
+    &-group {
+      &:not(:first-child) {
+        border-top: 1px solid #eee;
+      }
+    }
+
+    &-title {
+      padding: 12px 16px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #666;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #eee;
+    }
+
+    &-options {
+      background-color: white;
+    }
+
+    &-option {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+
+      span {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #333;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        display: block;
+        white-space: nowrap;
+      }
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &:active {
+        background-color: #e9ecef;
+      }
+    }
+  }
+
+  &__act {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  &__sale {
+    flex-basis: 15%;
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    text-align: center;
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    &-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      width: auto;
+      min-width: 80px;
+      border-radius: 8px;
+
+      &--active {
+        color: #1a932e;
+        background-color: rgba(26, 147, 46, 0.1);
+
+        .product__sale-icon {
+          background-color: #1a932e;
+          color: white;
+        }
+      }
+
+      &--inactive {
+        color: #eb5757;
+        background-color: rgba(235, 87, 87, 0.1);
+
+        .product__sale-icon {
+          background-color: #eb5757;
+          color: white;
+        }
+      }
+    }
+  }
+  // ... existing code ...
+}
